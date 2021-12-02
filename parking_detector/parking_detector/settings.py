@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'detection_app.apps.DetectionAppConfig',
-    'acquisition_app.apps.AcquisitionAppConfig'
 ]
 
 MIDDLEWARE = [
