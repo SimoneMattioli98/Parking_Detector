@@ -1,9 +1,11 @@
+//When the user clicks on a camera this function will be triggered
 document.getElementById("cam1").onclick =function () {
     url_detection = "http://127.0.0.1:8000/detection/use_service/"
     url_acquisition = "http://127.0.0.1:8000/acquisition/"
     getImage(url_detection, url_acquisition)
 }
 
+//Get the cookie for django
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -20,12 +22,14 @@ function getCookie(name) {
     return cookieValue;
 }
 
+//Send the requesto to the acquisition module
 function getImage(url_detection, url_acquisition)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            console.log(xmlHttp.response);
+            //Once the frame is received it is sent to the service
+            console.log(xmlHttp.response)
             sendImage(url_detection, xmlHttp.response);
         }
     }
@@ -34,7 +38,7 @@ function getImage(url_detection, url_acquisition)
     xmlHttp.send("CAM1");
 }
 
-
+//Send the image received from the acquisition to the service
 function sendImage(url_detection, encoded_image)
 {
     csrftoken = getCookie('csrftoken'); 
