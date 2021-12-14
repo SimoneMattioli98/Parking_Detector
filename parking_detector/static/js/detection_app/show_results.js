@@ -1,7 +1,8 @@
+url_detection = "http://127.0.0.1:8000/detection/use_service/"
+url_acquisition = "http://127.0.0.1:8000/acquisition/"
+
 //When the user clicks on a camera this function will be triggered
-document.getElementById("cam1").onclick =function () {
-    url_detection = "http://127.0.0.1:8000/detection/use_service/"
-    url_acquisition = "http://127.0.0.1:8000/acquisition/"
+document.getElementById("1").onclick =function () {
     getImage(url_detection, url_acquisition)
 }
 
@@ -29,7 +30,6 @@ function getImage(url_detection, url_acquisition)
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             //Once the frame is received it is sent to the service
-            console.log(xmlHttp.response)
             sendImage(url_detection, xmlHttp.response);
         }
     }
@@ -43,6 +43,15 @@ function sendImage(url_detection, encoded_image)
 {
     csrftoken = getCookie('csrftoken'); 
     var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            //Once the frame is received it is sent to the service
+            res = JSON.parse(xmlHttp.response);
+
+            document.getElementById("ItemPreview").src = "data:image/jpeg;base64," + res["image"];
+
+        }
+    }
     xmlHttp.open("POST", url_detection, true); // true for asynchronous 
     xmlHttp.setRequestHeader("X-CSRFToken", csrftoken); 
     xmlHttp.send(encoded_image);
