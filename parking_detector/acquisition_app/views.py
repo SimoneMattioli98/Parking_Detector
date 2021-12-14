@@ -2,6 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 import json
 import base64
+from utils import utils
 # Create your views here.
 
 def acquire_image(request):
@@ -13,9 +14,7 @@ def acquire_image(request):
     try:
         with open(f"media/camera{camera_id}.jpg", "rb") as f:
             image_bytes = f.read()
-            image_b64 = base64.b64encode(image_bytes) #we first create a string 
-            image_ascii = image_b64.decode('ascii')  #we decode it to ascii characters
-            camera_data['image'] = image_ascii #we use the ascii image inside the json because it is serializable
+            camera_data['image'] = utils.send_image_process(image_bytes) 
 
             mapping = open(f"stall_mapping/camera{camera_id}.json", "r")
             mapping_content = mapping.read()

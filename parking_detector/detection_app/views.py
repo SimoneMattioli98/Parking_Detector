@@ -8,6 +8,7 @@ from PIL import Image
 import numpy as np
 import json
 from django.contrib import messages
+from utils import utils
 # Create your views here.
 
 # the user wants to get the parking slots availlable 
@@ -29,9 +30,9 @@ def use_service(request):
             return HttpResponseNotFound("Error")
         #IMAGE
         #we backwards repeat the operations we didf at sending time
-        image_ascii = response_json["image"] 
-        image_b64 = image_ascii.encode('ascii')
-        image_bytes = base64.b64decode(image_b64)
+        image_string = response_json["image"] 
+        image_acii = image_string.encode('ascii')
+        image_bytes = base64.b64decode(image_acii)
 
         #MAPPING
         mapping = response_json["mapping"]
@@ -41,12 +42,17 @@ def use_service(request):
         imageBytesIO = BytesIO(image_bytes)
         pil_img = Image.open(imageBytesIO)
         opencv_img = np.array(pil_img) 
-        opencv_img = opencv_img[:, :, ::-1].copy() #convert from RGB to BGR
 
-        img = draw_boxes(opencv_img, mapping_json)
-        
+        #DETECTION PART
+        preprocessed_img = draw_boxes(opencv_img, mapping_json)
 
-        camera_data = {"image": img, "mapping": None}
+        #In order to show the image we need it's byte version..
+        bytes_image = utils.opencv_to_bytes(preprocessed_img)
+
+        #..and it's serializable version
+        sendable_image = utils.send_image_process(bytes_image)
+
+        camera_data = {"image": sendable_image, "mapping": None}
        
         return HttpResponse(json.dumps(camera_data))
 
