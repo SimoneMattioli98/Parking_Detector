@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.http.response import HttpResponse, HttpResponseNotFound
 from .modules import draw_boxes
 import base64
 import cv2
@@ -25,6 +25,8 @@ def use_service(request):
     if request.method == "POST":
         response_json = json.loads((request.body).decode('utf8')) #we decode the message to be json
 
+        if response_json["image"] == None or response_json["mapping"] == None:
+            return HttpResponseNotFound("Error")
         #IMAGE
         #we backwards repeat the operations we didf at sending time
         image_ascii = response_json["image"] 
@@ -42,8 +44,9 @@ def use_service(request):
         opencv_img = opencv_img[:, :, ::-1].copy() #convert from RGB to BGR
 
         img = draw_boxes(opencv_img, mapping_json)
+        
 
-        camera_data = {"image": image_ascii, "mapping": None}
+        camera_data = {"image": img, "mapping": None}
        
         return HttpResponse(json.dumps(camera_data))
 

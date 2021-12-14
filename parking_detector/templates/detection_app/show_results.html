@@ -48,7 +48,7 @@
 
 		.login_btn {
 			width: 100%;
-			background: #33ccff !important;
+			background: #33ccff;
 			color: white !important;
 		}
 		.login_btn:focus {
@@ -91,12 +91,12 @@
 
                     <div class="client-gui d-flex flex-column bd-highlight mb-3">
                         <div class="p-2 bd-highlight">
-							<button class="btn login_btn" id="1">CAM 1</button>
+							<button class="btn login_btn" id="1" onclick="serviceRequest(this.id)">CAM 1</button>
 						</div>
                     </div>
 					<div class="client-gui d-flex flex-column bd-highlight mb-3">
                         <div class="p-2 bd-highlight">
-							<button class="btn login_btn" id="2">CAM 2</button>
+							<button class="btn login_btn" id="2" onclick="serviceRequest(this.id)">CAM 2</button>
 						</div>
                     </div>
 				</div>
