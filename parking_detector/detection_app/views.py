@@ -7,8 +7,8 @@ from io import BytesIO
 from PIL import Image
 import numpy as np
 import json
-from django.contrib import messages
 from utils import utils
+from .apps import DetectionAppConfig
 # Create your views here.
 
 # the user wants to get the parking slots availlable 
@@ -44,7 +44,9 @@ def use_service(request):
         opencv_img = np.array(pil_img) 
 
         #DETECTION PART
-        preprocessed_img = draw_boxes(opencv_img, mapping_json)
+        #preprocessed_img = draw_boxes(opencv_img, mapping_json)
+        preprocessed_img = DetectionAppConfig.detector.get_detection(opencv_img)
+
 
         #In order to show the image we need it's byte version..
         bytes_image = utils.opencv_to_bytes(preprocessed_img)
