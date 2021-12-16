@@ -1,0 +1,10 @@
+"yolo": {
+  "version": 'yolov5s', # or yolov5m, yolov5l, yolov5x, custom
+  "folder": "ultralytics/yolov5"
+}
+
+"stall_colors": {
+      'free' : [0,255,0],
+      'busy' : [255,0,0]
+}
+

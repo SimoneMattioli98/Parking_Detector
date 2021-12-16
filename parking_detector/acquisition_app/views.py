@@ -2,7 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 import json
 import base64
-import parking_detector.utils as utils
+import parking_detector.utility_function as utils
 # Create your views here.
 
 def acquire_image(request):

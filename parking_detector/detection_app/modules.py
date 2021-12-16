@@ -2,7 +2,7 @@ import cv2
 import csv
 import json
 import numpy as np
-
+from .apps import DetectionAppConfig
 def get_stalls_mask(image,stalls) :
   #mask type define the maximum value of stall IDs supported
   mask_stalls = np.zeros(image.shape[:2] + (1,), dtype=np.uint16)
@@ -62,10 +62,9 @@ def get_busy_stalls(mask_stalls, mask_detections, mark_veichles, stalls_size, cl
     
 
 def draw_parking(image,stalls,detections) :
-    STALL_COLORS = {
-      'free' : [0,255,0],
-      'busy' : [255,0,0]
-    }
+
+    stall_colors = DetectionAppConfig.configuration["stall_colors"]
+    
     stalls_mask = image.copy()
     busy_stalls = list(detections.keys())
     
@@ -73,7 +72,7 @@ def draw_parking(image,stalls,detections) :
         #drawing stall with different color based on its state
         points = np.expand_dims(np.array(stall["points"], dtype=np.int32), axis=0)
         stall_id = int(stall['details']['slot_id'])
-        cv2.fillPoly(stalls_mask, points, STALL_COLORS['busy'] if np.isin(stall_id,busy_stalls) else STALL_COLORS['free'])
+        cv2.fillPoly(stalls_mask, points, stall_colors['busy'] if np.isin(stall_id,busy_stalls) else stall_colors['free'])
 
         # to edit, label non properly shown
         text_wh = cv2.getTextSize(str(stall_id), cv2.FONT_HERSHEY_PLAIN, 1., 1)
