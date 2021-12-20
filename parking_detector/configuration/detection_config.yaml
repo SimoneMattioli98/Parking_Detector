@@ -1,5 +1,5 @@
 "yolo": {
-  "version": 'yolov5x', # or yolov5s, yolov5m, yolov5l, yolov5x, custom
+  "version": 'yolov5s', # or yolov5s, yolov5m, yolov5l, yolov5x, custom
   "folder": "ultralytics/yolov5"
 }
 
