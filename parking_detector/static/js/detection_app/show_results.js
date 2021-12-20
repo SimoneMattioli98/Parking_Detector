@@ -4,6 +4,8 @@ const standard_btn_color = "#33ccff"
 const clicked_btn_color = "#1791b9"
 let prev_clicked = null
 const image_tag = document.getElementById("ItemPreview")
+const free_slots = document.getElementById("freeSlots")
+
 //When the user clicks on a camera this function will be triggered
 
 function serviceRequest(id){
@@ -41,7 +43,6 @@ function getImage(url_detection, url_acquisition, id)
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             //Once the frame is received it is sent to the service
-            console.log(xmlHttp.response)
             res = JSON.parse(xmlHttp.response);
             if(res["image"] == null || res["mapping"] == null){
                 alert("Error! The camera was not found..")
@@ -69,6 +70,8 @@ function sendImage(url_detection, encoded_image)
             res = JSON.parse(xmlHttp.response);
 
             image_tag.src = "data:image/jpeg;base64," + res["image"];
+            console.log();
+            free_slots.textContent = "Number of free slots: " + res["free_slots"];
 
         }
     }

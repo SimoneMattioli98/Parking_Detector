@@ -3,6 +3,9 @@ import csv
 import json
 import numpy as np
 from .apps import DetectionAppConfig
+
+
+
 def get_stalls_mask(image,stalls) :
   #mask type define the maximum value of stall IDs supported
   mask_stalls = np.zeros(image.shape[:2] + (1,), dtype=np.uint16)
@@ -94,7 +97,7 @@ def remap():
 
     #to move
     scale=0.385
-    with open("stall_mapping/camera1.csv", mode='r') as infile:
+    with open("stall_mapping/camera2.csv", mode='r') as infile:
         reader = csv.reader(infile)
 
         parking = [{
@@ -111,6 +114,6 @@ def remap():
             }
         } for rows in reader]
         jsonString = json.dumps(parking)
-        jsonFile = open("stall_mapping/camera1.json", "w")
+        jsonFile = open("stall_mapping/camera2.json", "w")
         jsonFile.write(jsonString)
         jsonFile.close()

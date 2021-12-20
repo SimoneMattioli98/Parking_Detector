@@ -13,11 +13,14 @@ import parking_detector.utility_function as utility
 
 
 # the user wants to get the parking slots availlable 
-def acquire_detections(request):
+def home_view_detection(request):
 
     if request.method == 'GET':
 
-        return render(request, "detection_app/acquire_detections.html")
+
+        remap()
+
+        return render(request, "detection_app/home_view_detection.html")
 
 
 
@@ -64,7 +67,7 @@ def use_service(request):
         #..and it's serializable version
         sendable_image = utility.send_image_process(bytes_image)
 
-        camera_data = {"image": sendable_image, "mapping": None}
+        camera_data = {"image": sendable_image, "free_slots": len(stalls_size) - len(busy_stalls)}
        
         return HttpResponse(json.dumps(camera_data))
 

@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import acquire_detections, use_service
+from .views import home_view_detection, use_service
 
 urlpatterns = [
-    path('', acquire_detections),
+    path('', home_view_detection),
     path('use_service/', use_service)
 
 ]
