@@ -24,10 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)7$%vq!cm$nc+orl2m)6ub!(@jd1p!9qbd+x(%-6=e#6w=au%l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ["172.17.84.11"]
-
+DEBUG = True
 
 # Application definition
 
@@ -77,10 +74,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'parking_detector.wsgi.application'
 
 
-CORS_ORIGIN_WHITELIST = (
-    "http://172.17.84.11:7000",
-)
-
+CORS_ORIGIN_ALLOW_ALL=True
 
 
 # Database
