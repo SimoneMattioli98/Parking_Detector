@@ -1,5 +1,5 @@
-url_detection = "http://127.0.0.1:8000/detection/use_service/"
-url_acquisition = "http://127.0.0.1:8000/acquisition/"
+url_detection = "http://172.17.84.11:7000/detection/use_service/"
+url_acquisition = "http://172.17.84.11:7000/acquisition/"
 const standard_btn_color = "#33ccff"
 const clicked_btn_color = "#1791b9"
 let prev_clicked = null

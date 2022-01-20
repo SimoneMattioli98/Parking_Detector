@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)7$%vq!cm$nc+orl2m)6ub!(@jd1p!9qbd+x(%-6=e#6w=au%l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["172.17.84.11"]
 
 
 # Application definition
@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'detection_app.apps.DetectionAppConfig',
-    'acquisition_app.apps.AcquisitionAppConfig'
+    'acquisition_app.apps.AcquisitionAppConfig',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -73,6 +75,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'parking_detector.wsgi.application'
+
+
+CORS_ORIGIN_WHITELIST = (
+    "http://172.17.84.11:7000",
+)
+
 
 
 # Database
