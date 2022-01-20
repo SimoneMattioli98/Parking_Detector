@@ -3,8 +3,10 @@ from django.shortcuts import render
 import json
 import base64
 import parking_detector.utility_function as utils
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
+@csrf_exempt
 def acquire_image(request):
 
     camera_id = (request.body).decode("utf-8") 

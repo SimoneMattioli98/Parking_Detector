@@ -9,10 +9,11 @@ import numpy as np
 import json
 from .apps import DetectionAppConfig
 import parking_detector.utility_function as utility 
-
+from django.views.decorators.csrf import csrf_exempt
 
 
 # the user wants to get the parking slots availlable 
+@csrf_exempt
 def home_view_detection(request):
 
     if request.method == 'GET':
@@ -22,6 +23,7 @@ def home_view_detection(request):
 
 
 # this is the API which shows the results of the detections
+@csrf_exempt
 def use_service(request):
     # Shows the result of the prediction
     if request.method == "GET":
