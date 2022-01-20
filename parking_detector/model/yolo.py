@@ -25,7 +25,7 @@ class YoloModel:
         tsize = 1280
         device = "gpu"
         fp16 = False
-        ckpt = "../drive/MyDrive/parking-detector/Models/yolox_s.pth"
+        ckpt = "model/yolox_s.pth"
         legacy = False
     
         exp.test_conf = conf
