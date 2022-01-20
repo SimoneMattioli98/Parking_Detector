@@ -50,6 +50,7 @@ def use_service(request):
 
         #DETECTION PART
         detections = DetectionAppConfig.detector.get_detection(opencv_img)
+        print(detections)
         mask_stalls = get_stalls_mask(opencv_img, mapping_json)
         unique, counts = np.unique(mask_stalls, return_counts=True)
         stalls_size = dict(zip(unique, counts))
