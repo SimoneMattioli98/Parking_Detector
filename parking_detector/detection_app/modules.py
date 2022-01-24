@@ -30,12 +30,13 @@ def get_detection_masks(image, detections, classes) :
 
     # drawing detections bounding boxes (only rectangular supported)
     for detection in zip(detections, classes) :
-        print(detection[0])
-        pnt1 = (int(detection[x1]), int(detection[y1]))
-        pnt2 = (int(detection[x2]), int(detection[y2]))
+        bbox = detection[0]
+        clas = detection[1]
+        pnt1 = (int(bbox[x1]), int(bbox[y1]))
+        pnt2 = (int(bbox[x2]), int(bbox[y2]))
         
         cv2.rectangle(mask_detections, pnt1, pnt2, 1, -1)
-        cv2.rectangle(mask_classes, pnt1, pnt2, int(detection[cls]), -1)
+        cv2.rectangle(mask_classes, pnt1, pnt2, int(clas), -1)
 
     return mask_detections, mask_classes
 
