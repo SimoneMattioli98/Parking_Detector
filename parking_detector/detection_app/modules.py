@@ -18,8 +18,8 @@ def get_stalls_mask(image,stalls) :
       cv2.fillPoly(mask_stalls, points, stallo_id)
   return mask_stalls
 
-def get_detection_masks(image, detections) :
-    x1,y1,x2,y2,_,cls = 0,1,2,3,4,5
+def get_detection_masks(image, detections, classes) :
+    x1,y1,x2,y2 = 0,1,2,3
 
     # mask used to detect busy stalls
     mask_detections = np.zeros(image.shape[:2] + (1,), dtype=np.uint8)
@@ -29,7 +29,8 @@ def get_detection_masks(image, detections) :
     mask_classes= np.zeros(image.shape[:2] + (1,), dtype=np.uint8)
 
     # drawing detections bounding boxes (only rectangular supported)
-    for detection in detections :
+    for detection in zip(detections, classes) :
+        print(detection)
         pnt1 = (int(detection[x1]), int(detection[y1]))
         pnt2 = (int(detection[x2]), int(detection[y2]))
         
