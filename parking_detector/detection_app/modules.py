@@ -30,7 +30,7 @@ def get_detection_masks(image, detections, classes) :
 
     # drawing detections bounding boxes (only rectangular supported)
     for detection in zip(detections, classes) :
-        print(detection)
+        print(detection[0])
         pnt1 = (int(detection[x1]), int(detection[y1]))
         pnt2 = (int(detection[x2]), int(detection[y2]))
         
