@@ -65,13 +65,26 @@ class YoloModel:
         outputs, img_info = self.predictor.inference(image)
         result_image = self.predictor.visual(outputs[0], img_info, self.predictor.confthre)
         #cv2_imshow(result_image)
-        return outputs, result_image, img_info
+        return outputs[0], result_image, img_info
 
     def get_detection(self, image):
         if self.predictor == None:
             print("First you need to build the model")
         else:
-            outputs, result_image, img_info = self.__predict__(image)
+            output, result_image, img_info = self.__predict__(image)
+
+            ratio = img_info["ratio"]
+            img = img_info["raw_img"]
+            if output is None:
+                return img
+            output = output.cpu()
+
+            bboxes = output[:, 0:4]
+
+            # preprocessing: resize
+            bboxes /= ratio
+
+            cls = output[:, 6]
             #mask = np.isin(outputs[:,6],list(self.CLASSES_TO_DETECT.keys()))
             #detections = outputs[mask]
-            return outputs[0], result_image
+            return bboxes, result_image, cls

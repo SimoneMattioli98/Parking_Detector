@@ -49,19 +49,19 @@ def use_service(request):
         opencv_img = np.array(pil_img) 
 
         #DETECTION PART
-        detections, result_temp = DetectionAppConfig.detector.get_detection(opencv_img)
+        detections, result_temp, classes = DetectionAppConfig.detector.get_detection(opencv_img)
         mask_stalls = get_stalls_mask(opencv_img, mapping_json)
         unique, counts = np.unique(mask_stalls, return_counts=True)
         stalls_size = dict(zip(unique, counts))
-        # mask_detections, mask_classes = get_detection_masks(opencv_img, detections)
-        # busy_stalls = get_busy_stalls(  mask_stalls,mask_detections,mask_classes, stalls_size, 
-        #                                 DetectionAppConfig.detector.CLASSES_TO_DETECT, mask_classes, threshold=0.6)
+        mask_detections, mask_classes = get_detection_masks(opencv_img, detections, classes)
+        busy_stalls = get_busy_stalls(  mask_stalls,mask_detections,mask_classes, stalls_size, 
+                                        DetectionAppConfig.detector.CLASSES_TO_DETECT, mask_classes, threshold=0.6)
 
-        # preprocessed_img = draw_parking(opencv_img,mapping_json,busy_stalls)
+        preprocessed_img = draw_parking(opencv_img,mapping_json,busy_stalls)
 
 
         #In order to show the image we need it's byte version..
-        bytes_image = utility.opencv_to_bytes(result_temp)
+        bytes_image = utility.opencv_to_bytes(preprocessed_img)
 
         #..and it's serializable version
         sendable_image = utility.send_image_process(bytes_image)
