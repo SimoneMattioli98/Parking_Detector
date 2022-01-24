@@ -74,4 +74,4 @@ class YoloModel:
             outputs, result_image, img_info = self.__predict__(image)
             #mask = np.isin(outputs[:,6],list(self.CLASSES_TO_DETECT.keys()))
             #detections = outputs[mask]
-            return outputs
+            return outputs[0]
