@@ -73,6 +73,6 @@ class YoloModel:
         else:
             outputs, result_image, img_info = self.__predict__(image)
             print(outputs)
-            # mask = np.isin(results[:,5],list(self.CLASSES_TO_DETECT.keys()))
-            # detections = results[mask]
-            return None
+            mask = np.isin(outputs[:,6],list(self.CLASSES_TO_DETECT.keys()))
+            detections = outputs[mask]
+            return detections
