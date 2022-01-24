@@ -66,6 +66,6 @@ def use_service(request):
         #..and it's serializable version
         sendable_image = utility.send_image_process(bytes_image)
 
-        camera_data = {"image": sendable_image, "free_slots": len(stalls_size) - len([]) - 1}
+        camera_data = {"image": sendable_image, "free_slots": len(stalls_size) - len(busy_stalls) - 1}
        
         return HttpResponse(json.dumps(camera_data))
