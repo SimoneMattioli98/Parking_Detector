@@ -54,7 +54,6 @@ def get_busy_stalls(mask_stalls, mask_detections, mark_veichles, stalls_size, cl
         iou = 0
         if stall > 0:
             iou = overlay_pixel.get(stall, 0) / size
-            print(iou)
 
         # if iou is greater that threshold, stall is marked as busy
         if iou >= threshold :
