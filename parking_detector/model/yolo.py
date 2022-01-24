@@ -72,7 +72,6 @@ class YoloModel:
             print("First you need to build the model")
         else:
             outputs, result_image, img_info = self.__predict__(image)
-            print(type(list(self.CLASSES_TO_DETECT.keys())))
-            mask = np.isin(outputs[:,6],list(self.CLASSES_TO_DETECT.keys()))
-            detections = outputs[mask]
-            return detections
+            #mask = np.isin(outputs[:,6],list(self.CLASSES_TO_DETECT.keys()))
+            #detections = outputs[mask]
+            return outputs
