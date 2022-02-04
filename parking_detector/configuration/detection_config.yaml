@@ -1,6 +1,9 @@
 "yolo": {
-  "version": 'yolov5s', # or yolov5s, yolov5m, yolov5l, yolov5x, custom
-  "folder": "ultralytics/yolov5"
+  "checkpoint": "",
+  "tsize": 1280,
+  "device": 'gpu',
+  "confidence": 0.2,
+  "nms": 0.45
 }
 
 "stall_colors": {

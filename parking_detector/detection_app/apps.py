@@ -9,8 +9,6 @@ class DetectionAppConfig(AppConfig):
     with open("configuration/detection_config.yaml", "r") as yamlfile:
         configuration = yaml.load(yamlfile, Loader=yaml.FullLoader)
 
-    VERSION = configuration["yolo"]["version"] 
-    FOLDER = configuration["yolo"]["folder"]
-
-    detector = YoloModel(VERSION, FOLDER)
+    conf_yolo = configuration["yolo"]
+    detector = YoloModel(conf_yolo["checkpoint"], conf_yolo["tsize"])
     detector.build_model()
