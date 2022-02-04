@@ -1,5 +1,5 @@
 "yolo": {
-  "checkpoint": "",
+  "checkpoint": "model/yolox_s.pth",
   "tsize": 1280,
   "device": 'gpu',
   "confidence": 0.2,
