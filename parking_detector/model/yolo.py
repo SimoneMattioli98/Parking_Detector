@@ -1,10 +1,11 @@
-import torch 
+import torch
 import numpy as np
-import os 
+import os
 
 from yolox.exp import get_exp
 from .predictor import Predictor
 from yolox.data.datasets import COCO_CLASSES
+
 
 class YoloModel:
     def __init__(self, checkpoint, tsize, device='gpu', confidence=0.2, nms=0.45, fp16=False, legacy=False) -> None:
@@ -16,12 +17,6 @@ class YoloModel:
         self.predictor = None
         self.fp16 = fp16
         self.legacy = legacy
-        # classes which wants to be detected
-        self.CLASSES_TO_DETECT = {
-            2 : 'car',
-            5 : 'bus',
-            7 : 'truck',
-        }
 
     def __create_predictor__(self, exp):
 
@@ -45,9 +40,8 @@ class YoloModel:
             model, exp, COCO_CLASSES, None, None,
             self.device, self.fp16, self.legacy,
         )
-    
-        return predictor 
 
+        return predictor
 
     def build_model(self):
         exp = get_exp(None, "yolox-s")
@@ -57,28 +51,23 @@ class YoloModel:
 
     def __predict__(self, image):
         outputs, img_info = self.predictor.inference(image)
-        #result_image = self.predictor.visual(outputs[0], img_info, self.predictor.confthre)
-        #cv2_imshow(result_image)
+        # result_image = self.predictor.visual(outputs[0], img_info, self.predictor.confthre)
+        # cv2_imshow(result_image)
         return outputs[0], img_info
 
     def get_detection(self, image):
-        if self.predictor == None:
+        if self.predictor is None:
             print("First you need to build the model")
         else:
-            output, img_info = self.__predict__(image)
+            outputs, img_info = self.__predict__(image)
 
             ratio = img_info["ratio"]
             img = img_info["raw_img"]
             if output is None:
                 return img
-            output = output.cpu()
-
-            bboxes = output[:, 0:4]
+            output = outputs[0].cpu()
 
             # preprocessing: resize
-            bboxes /= ratio
+            output[:, 0:4] /= ratio
 
-            cls = output[:, 6]
-            #mask = np.isin(outputs[:,6],list(self.CLASSES_TO_DETECT.keys()))
-            #detections = outputs[mask]
-            return bboxes, cls
+            return output

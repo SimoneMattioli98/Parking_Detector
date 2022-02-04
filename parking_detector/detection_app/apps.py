@@ -11,5 +11,6 @@ class DetectionAppConfig(AppConfig):
 
     VERSION = configuration["yolo"]["version"] 
     FOLDER = configuration["yolo"]["folder"]
+
     detector = YoloModel(VERSION, FOLDER)
     detector.build_model()
