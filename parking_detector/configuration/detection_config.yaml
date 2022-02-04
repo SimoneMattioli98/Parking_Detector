@@ -8,3 +8,9 @@
       'busy' : [255,0,0]
 }
 
+"classes_to_detect": {
+        2: 'car',
+        5: 'bus',
+        7: 'truck',
+}
+
