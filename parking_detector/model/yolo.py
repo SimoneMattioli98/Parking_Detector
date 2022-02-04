@@ -63,7 +63,7 @@ class YoloModel:
 
             ratio = img_info["ratio"]
             img = img_info["raw_img"]
-            if output is None:
+            if outputs is None:
                 return img
             output = outputs[0].cpu()
 
