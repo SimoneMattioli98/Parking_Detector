@@ -7,49 +7,43 @@ from .predictor import Predictor
 from yolox.data.datasets import COCO_CLASSES
 
 class YoloModel:
-    def __init__(self, version, folder) -> None:
-        self.version = version
+    def __init__(self, checkpoint, tsize, device='gpu', confidence=0.2, nms=0.45, fp16=False, legacy=False) -> None:
+        self.checkpoint = checkpoint
+        self.conf = confidence
+        self.nms = nms
+        self.tsize = tsize
+        self.device = device
         self.predictor = None
-        self.folder = folder
-        #classes which wants to be detected
+        self.fp16 = fp16
+        self.legacy = legacy
+        # classes which wants to be detected
         self.CLASSES_TO_DETECT = {
             2 : 'car',
             5 : 'bus',
             7 : 'truck',
         }
 
-
     def __create_predictor__(self, exp):
-        conf = 0.2
-        nms = 0.45
-        tsize = 1280
-        device = "gpu"
-        fp16 = False
-        ckpt = "model/yolox_s.pth"
-        legacy = False
-    
-        exp.test_conf = conf
-        exp.nmsthre = nms
-        exp.test_size = (tsize, tsize)
+
+        exp.test_conf = self.conf
+        exp.nmsthre = self.nms
+        exp.test_size = (self.tsize, self.tsize)
 
         model = exp.get_model()
 
-        if device == "gpu":
+        if self.device == "gpu":
             model.cuda()
-            if fp16:
+            if self.fp16:
                 model.half()  # to FP16
         model.eval()
 
-        ckpt_file = ckpt
-        ckpt = torch.load(ckpt_file, map_location="cpu")
+        ckpt = torch.load(self.checkpoint, map_location="cpu")
         # load the model state dict
         model.load_state_dict(ckpt["model"])
 
-        
-
         predictor = Predictor(
             model, exp, COCO_CLASSES, None, None,
-            device, fp16, legacy,
+            self.device, self.fp16, self.legacy,
         )
     
         return predictor 
