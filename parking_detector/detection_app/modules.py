@@ -18,27 +18,23 @@ def get_stalls_mask(image,stalls) :
       cv2.fillPoly(mask_stalls, points, stallo_id)
   return mask_stalls
 
-def get_detection_masks(image, detections, classes) :
-    x1,y1,x2,y2 = 0,1,2,3
+def get_detection_masks(image, detections, class_to_detect, score_conf=0.3) :
+    x1, y1, x2, y2, score_x, score_y, cls = 0, 1, 2, 3, 4, 5, 6
 
     # mask used to detect busy stalls
     mask_detections = np.zeros(image.shape[:2] + (1,), dtype=np.uint8)
 
-    # mask type define the maximum value of class IDs supported
-    # mask used to retrieve what class is on a given stall
-    mask_classes= np.zeros(image.shape[:2] + (1,), dtype=np.uint8)
-
     # drawing detections bounding boxes (only rectangular supported)
-    for detection in zip(detections, classes) :
-        bbox = detection[0]
-        clas = detection[1]
-        pnt1 = (int(bbox[x1]), int(bbox[y1]))
-        pnt2 = (int(bbox[x2]), int(bbox[y2]))
-        
-        cv2.rectangle(mask_detections, pnt1, pnt2, 1, -1)
-        cv2.rectangle(mask_classes, pnt1, pnt2, int(clas), -1)
+    for detection in detections:
+        class_id = int(detection[cls])
+        score = detection[score_x] * detection[score_y]
+        if class_id in class_to_detect and score > score_conf:
+            pnt1 = (int(detection[x1]), int(detection[y1]))
+            pnt2 = (int(detection[x2]), int(detection[y2]))
 
-    return mask_detections, mask_classes
+            cv2.rectangle(mask_detections, pnt1, pnt2, 1, -1)
+
+    return mask_detections
 
 def get_busy_stalls(mask_stalls, mask_detections, mark_veichles, stalls_size, classes_to_detect, mask_classes, threshold=0.6):
     # number of pixels per stall overlayed between stall and detections
