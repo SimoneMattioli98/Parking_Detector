@@ -65,6 +65,9 @@ class YoloModel:
             img = img_info["raw_img"]
             if outputs is None:
                 return img
+
+            print(outputs[5, :])
+
             output = outputs[0].cpu()
 
             # preprocessing: resize
