@@ -66,9 +66,7 @@ class YoloModel:
             if outputs is None:
                 return img
 
-            print(outputs[5, :])
-
-            output = outputs[0].cpu()
+            output = outputs.cpu()
 
             # preprocessing: resize
             output[:, 0:4] /= ratio
