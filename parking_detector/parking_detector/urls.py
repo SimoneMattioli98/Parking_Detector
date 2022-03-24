@@ -7,6 +7,6 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     path('detection/', include('detection_app.urls')),
     path('acquisition/', include('acquisition_app.urls')),
-    path("admin/", include('admin_app.urls'))
+    path("admin/", include('admin_app.urls')),
     path('', home_view)
 ]
