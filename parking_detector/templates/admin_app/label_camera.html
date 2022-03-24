@@ -1,5 +1,5 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="it" style="height: 100%;">
     
@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
 	<link rel="stylesheet" href="{% static '/css/loader.css' %}">
-
+	
 	<style>
 		body,
 		html {
@@ -20,8 +20,7 @@
 			background: #7abecc !important;
 		}
 		.user_card {
-			width: 500px;
-            height: 400px;
+
 			margin-top: auto;
 			margin-bottom: auto;
 			background: #74cfbf;
@@ -49,7 +48,7 @@
 
 		.login_btn {
 			width: 100%;
-			background: #33ccff !important;
+			background: #33ccff;
 			color: white !important;
 		}
 		.login_btn:focus {
@@ -87,18 +86,51 @@
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
-				<div class="d-flex justify-content-center">
-
-
-					<h3 id="form-title">PARKING DETECTOR</h3>
-				</div>
+				
 				<div class="d-flex justify-content-center form_container">
 
                     <div class="client-gui d-flex flex-column bd-highlight mb-3">
-                        <div class="p-2 bd-highlight"><button class="btn login_btn" onclick="location.href = '/detection'">ADMIN</button></div>
-						<div class="p-2 bd-highlight"><button class="btn login_btn" onclick="location.href = '/detection'">CLIENT</button></div>
+                        <div class="p-2 bd-highlight">
+							<button class="btn login_btn" id="1" onclick="serviceRequest(this.id)">CAM 1</button>
+						</div>
+                    </div>
+					<div class="client-gui d-flex flex-column bd-highlight mb-3">
+                        <div class="p-2 bd-highlight">
+							<button class="btn login_btn" id="2" onclick="serviceRequest(this.id)">CAM 2</button>
+						</div>
+                    </div>
+					<div class="client-gui d-flex flex-column bd-highlight mb-3">
+                        <div class="p-2 bd-highlight">
+							<button class="btn login_btn" id="3" onclick="serviceRequest(this.id)">CAM 3</button>
+						</div>
+                    </div>
+					<div class="client-gui d-flex flex-column bd-highlight mb-3">
+                        <div class="p-2 bd-highlight">
+							<button class="btn login_btn" id="4" onclick="serviceRequest(this.id)">CAM 4</button>
+						</div>
+                    </div>
+				</div>
+				<div class="d-flex justify-content-center form_container">
 
-                      </div>
+					<br>
+					<div class="client-gui d-flex flex-column bd-highlight mb-3">
+						<div class="p-2 bd-highlight">
+							<img id="ItemPreview" src="" width="400" height="auto">
+						</div>
+						<img id="ItemPreview" src="" width="400" height="auto">
+                    </div>
+				</div>
+
+				<div class="d-flex justify-content-center form_container">
+
+					<br>
+					<div class="client-gui d-flex flex-column bd-highlight mb-3">
+						<div class="p-2 bd-highlight">
+							<p id="freeSlots"></p>
+						</div>
+						<img id="ItemPreview" src="" width="400" height="auto">
+                    </div>
+				</div>
 
 
 				</div>
@@ -116,6 +148,8 @@
 			$(".loader-wrapper").fadeOut("slow");
 		});
 	</script>
+	<script src="{% static '/js/detection_app/show_results.js' %}"></script>
+
 </body>
 
 </html>
