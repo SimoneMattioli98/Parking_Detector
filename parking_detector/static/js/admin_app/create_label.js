@@ -3,10 +3,9 @@ url_acquisition = "http://172.17.84.11:7000/acquisition/"
 const standard_btn_color = "#33ccff"
 const clicked_btn_color = "#1791b9"
 let prev_clicked = null
-const image_tag = document.getElementById("ItemPreview")
 const free_slots = document.getElementById("freeSlots")
 
-
+const image = new Image(); 
 
 
 
@@ -50,7 +49,7 @@ function getImage(url_detection, url_acquisition, id)
             res = JSON.parse(xmlHttp.response);
             if(res["image"] == null || res["mapping"] == null){
                 alert("Error! The camera was not found..")
-                image_tag.src = ""
+                image.src = ""
             }else{
                 sendImage(url_detection, xmlHttp.response);
             }
@@ -73,7 +72,7 @@ function sendImage(url_detection, encoded_image)
             //Once the frame is received it is sent to the service
             res = JSON.parse(xmlHttp.response);
 
-            image_tag.src = "data:image/jpeg;base64," + res["image"];
+            image.src = "data:image/jpeg;base64," + res["image"];
             console.log();
             free_slots.textContent = "Number of free slots: " + res["free_slots"];
 
