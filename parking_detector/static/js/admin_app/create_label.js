@@ -90,6 +90,8 @@ function getImage(url_acquisition, id)
                 //Once the frame is received it is sent to the service
                 res = JSON.parse(xmlHttp.response);
 
+                image = new Image(); 
+
                 image.src = "data:image/jpeg;base64," + res["image"];
 
                 image.onload = main; 
