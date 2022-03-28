@@ -298,7 +298,7 @@ function saveJson(){
 
         if(check_correctness){
             json_file = JSON.stringify(json_array)
-            isSaved = True
+            isSaved = true
             console.log(json_file)
         }else{
             alert("Not all slots have been completed.")
