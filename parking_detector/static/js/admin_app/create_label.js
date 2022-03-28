@@ -87,12 +87,10 @@ function getImage(url_acquisition, id)
                 //Once the frame is received it is sent to the service
                 res = JSON.parse(xmlHttp.response);
                 const image = new Image(); 
+                image.src = "data:image/jpeg;base64," + res["image"];
 
                 image.onload = main; 
 
-                image.src = "data:image/jpeg;base64," + res["image"];
-                console.log();
-                free_slots.textContent = "Number of free slots: " + res["free_slots"];
             }
         }
     }
