@@ -1,11 +1,53 @@
-url_detection = "http://172.17.84.11:7000/detection/use_service/"
 url_acquisition = "http://172.17.84.11:7000/acquisition/"
 const standard_btn_color = "#33ccff"
 const clicked_btn_color = "#1791b9"
 let prev_clicked = null
-const free_slots = document.getElementById("freeSlots")
 
 const image = new Image(); 
+
+image.onload = main; 
+
+function main() {
+    paper = Raphael(document.getElementById("raph"), image.width*0.8, image.height*0.8);
+    var img = paper.image(image.src, 0, 0, image.width*0.8, image.height*0.8);
+}
+
+  
+function saveJson(){
+    var json_array = []
+    var check_correctness = true
+    if(slots.size > 0){
+        
+        for (const slot of slots.values()) {
+            var json_dict = {"points": [], "details": {}}
+            for(const point of slot.get("points").values()){
+                var bbox = point.getBBox()
+                json_dict["points"].push([bbox.x, bbox.y])
+                console.log(json_dict["points"])
+            }
+            
+            json_dict["details"]["parking_id"] = slot.get("info").get("parking_id")
+            var slot_id = slot.get("info").get("slot_id") 
+            var slot_type = slot.get("info").get("slot_type")
+            if(slot_id == null || slot_type == null){
+                check_correctness = false
+            }
+            json_dict["details"]["slot_id"] = slot_id
+            json_dict["details"]["slot_type"] = slot_type  
+            
+            json_array.push(json_dict)
+        }
+
+        if(check_correctness){
+            json_file = JSON.stringify(json_array)
+            console.log(json_file)
+        }else{
+            alert("Not all slots have been completed.")
+        }
+        
+        
+    }
+}
 
 
 
@@ -19,7 +61,7 @@ function serviceRequest(id){
     prev_clicked = id
     document.getElementById(prev_clicked).style.background = clicked_btn_color
 
-    getImage(url_detection, url_acquisition, id)
+    getImage(url_acquisition, id)
 }
 
 //Get the cookie for django
@@ -40,7 +82,7 @@ function getCookie(name) {
 }
 
 //Send the requesto to the acquisition module
-function getImage(url_detection, url_acquisition, id)
+function getImage(url_acquisition, id)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
@@ -51,7 +93,12 @@ function getImage(url_detection, url_acquisition, id)
                 alert("Error! The camera was not found..")
                 image.src = ""
             }else{
-                sendImage(url_detection, xmlHttp.response);
+                //Once the frame is received it is sent to the service
+                res = JSON.parse(xmlHttp.response);
+
+                image.src = "data:image/jpeg;base64," + res["image"];
+                console.log();
+                free_slots.textContent = "Number of free slots: " + res["free_slots"];
             }
         }
     }
@@ -60,26 +107,5 @@ function getImage(url_detection, url_acquisition, id)
     csrftoken = getCookie('csrftoken'); 
     xmlHttp.setRequestHeader("X-CSRFToken", csrftoken); 
     xmlHttp.send(id);
-}
-
-//Send the image received from the acquisition to the service
-function sendImage(url_detection, encoded_image)
-{
-    csrftoken = getCookie('csrftoken'); 
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            //Once the frame is received it is sent to the service
-            res = JSON.parse(xmlHttp.response);
-
-            image.src = "data:image/jpeg;base64," + res["image"];
-            console.log();
-            free_slots.textContent = "Number of free slots: " + res["free_slots"];
-
-        }
-    }
-    xmlHttp.open("POST", url_detection, true); // true for asynchronous 
-    xmlHttp.setRequestHeader("X-CSRFToken", csrftoken); 
-    xmlHttp.send(encoded_image);
 }
 
