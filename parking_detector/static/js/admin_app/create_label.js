@@ -1,4 +1,5 @@
 url_acquisition = "http://172.17.84.11:7000/acquisition/"
+url_admin = "http://172.17.84.11:7000/admin/"
 const standard_btn_color = "#33ccff"
 const clicked_btn_color = "#1791b9"
 let prev_clicked = null
@@ -87,9 +88,7 @@ function main() {
         document.getElementById("raph").innerHTML = "";
     }
     if(res["mapping"] != null){
-        console.log("CIAOOOOO")
-    }else{
-        console.log("LOLOLOLOL")
+        buildJson(res["mapping"])
     }
     paper = Raphael(document.getElementById("raph"), image.width*0.8, image.height*0.8);
     var img = paper.image(image.src, 0, 0, image.width*0.8, image.height*0.8);
@@ -305,6 +304,17 @@ function saveJson(){
             json_file = JSON.stringify(json_array)
             isSaved = true
             console.log(json_file)
+            csrftoken = getCookie('csrftoken'); 
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() { 
+                if (xmlHttp.readyState != 4 || xmlHttp.status != 200){
+                    alert("Something went wrong.")
+
+                }
+            }
+            xmlHttp.open("POST", url_admin, true); // true for asynchronous 
+            xmlHttp.setRequestHeader("X-CSRFToken", csrftoken); 
+            xmlHttp.send(json_file);
         }else{
             alert("Not all slots have been completed.")
         }
