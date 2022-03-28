@@ -115,7 +115,36 @@
 					<br>
 					<div class="client-gui d-flex flex-column bd-highlight mb-3">
 						<div class="p-2 bd-highlight">
-							<img id="ItemPreview" src="" width="400" height="auto">
+							<div class="d-flex justify-content-center form_container">
+
+								<div class="client-gui d-flex flex-column bd-highlight mb-3">
+									<div class="p-2 bd-highlight">
+					
+										<label for="slot_id">Slot ID:</label>
+										<input onchange="changeSlotID(this)" type="number" id="slot_id" name="slot_id">
+											
+									</div>
+														
+								</div> 	
+								<div class="client-gui d-flex flex-column bd-highlight mb-3">
+									<div class="p-2 bd-highlight">
+					
+											<label for="slot_type">Slot Type:</label>
+					
+											<select onchange="changeSlotType(this)" name="slot_type" id="slot_type">
+												<option disabled selected value></option>
+												<option value="common">Common</option>
+												<option value="handicap">Handicap</option>
+											</select>
+											
+										</div>
+														
+								</div> 	
+							</div>
+							
+							<div id="raph" class="d-flex justify-content-center h-100">        
+							</div>
+					
 						</div>
 						<img id="ItemPreview" src="" width="400" height="auto">
                     </div>

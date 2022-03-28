@@ -6,6 +6,10 @@ let prev_clicked = null
 const image_tag = document.getElementById("ItemPreview")
 const free_slots = document.getElementById("freeSlots")
 
+
+
+
+
 //When the user clicks on a camera this function will be triggered
 
 function serviceRequest(id){
