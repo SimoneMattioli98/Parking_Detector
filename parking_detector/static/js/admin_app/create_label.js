@@ -3,6 +3,9 @@ const standard_btn_color = "#33ccff"
 const clicked_btn_color = "#1791b9"
 let prev_clicked = null
 
+
+const image = new Image(); 
+
   
 function saveJson(){
     var json_array = []
@@ -86,11 +89,10 @@ function getImage(url_acquisition, id)
             }else{
                 //Once the frame is received it is sent to the service
                 res = JSON.parse(xmlHttp.response);
-                const image = new Image(); 
+
                 image.src = "data:image/jpeg;base64," + res["image"];
 
-                image.onload = main(image); 
-
+                image.onload = main; 
             }
         }
     }
@@ -101,8 +103,7 @@ function getImage(url_acquisition, id)
     xmlHttp.send(id);
 }
 
-
-function main(image) {
+function main() {
     paper = Raphael(document.getElementById("raph"), image.width*0.8, image.height*0.8);
     var img = paper.image(image.src, 0, 0, image.width*0.8, image.height*0.8);
 }
