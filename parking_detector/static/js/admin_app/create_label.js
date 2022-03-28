@@ -11,6 +11,7 @@ var currentModSlot = -1
 var points = []
 var slots = new Map();
 var isSaved = true
+var currentCameraId = -1
 document.addEventListener("keydown", deleteLabel, false);
 
   
@@ -26,6 +27,7 @@ function serviceRequest(id){
         document.getElementById(prev_clicked).style.background = standard_btn_color
     }
     prev_clicked = id
+    currentCameraId = id
     document.getElementById(prev_clicked).style.background = clicked_btn_color
 
     getImage(url_acquisition, id)
@@ -309,7 +311,7 @@ function saveJson(){
     
             xmlHttp.open("POST", url_admin, true); // true for asynchronous 
             xmlHttp.setRequestHeader("X-CSRFToken", csrftoken); 
-            xmlHttp.send(json_file);
+            xmlHttp.send(JSON.stringify({"id": currentCameraId,"mapping": json_file}));
         }else{
             alert("Not all slots have been completed.")
         }
