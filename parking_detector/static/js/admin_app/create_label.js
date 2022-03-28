@@ -306,13 +306,7 @@ function saveJson(){
             console.log(json_file)
             csrftoken = getCookie('csrftoken'); 
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = function() { 
-                console.log(xmlHttp.status)
-                if (xmlHttp.status != 200){
-                    alert("Something went wrong.")
-
-                }
-            }
+    
             xmlHttp.open("POST", url_admin, true); // true for asynchronous 
             xmlHttp.setRequestHeader("X-CSRFToken", csrftoken); 
             xmlHttp.send(json_file);
