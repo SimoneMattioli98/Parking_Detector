@@ -4,7 +4,7 @@ const clicked_btn_color = "#1791b9"
 let prev_clicked = null
 
 
-const image = new Image(); 
+let image = new Image(); 
 
   
 function saveJson(){
