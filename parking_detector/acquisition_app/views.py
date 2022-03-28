@@ -18,7 +18,8 @@ def acquire_image(request):
             image_bytes = f.read()
             camera_data['image'] = utils.send_image_process(image_bytes) 
 
-            mapping = open(f"stall_mapping/camera{camera_id}.json", "r")
+            mapping = open(f"labels/camera{camera_id}.json", "r")
+            print(mapping)
             mapping_content = mapping.read()
             camera_data["mapping"] = mapping_content
             
