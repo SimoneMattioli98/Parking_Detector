@@ -18,6 +18,7 @@ document.addEventListener("keydown", deleteLabel, false);
 function serviceRequest(id){
     if(!isSaved){
         alert("You must first save your changes!")
+        return
     }
     //Change button color if clicked and restore the previous button clicked color
     if(prev_clicked != null && prev_clicked != id){
@@ -297,7 +298,7 @@ function saveJson(){
 
         if(check_correctness){
             json_file = JSON.stringify(json_array)
-
+            isSaved = True
             console.log(json_file)
         }else{
             alert("Not all slots have been completed.")
