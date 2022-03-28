@@ -287,20 +287,20 @@ function saveJson(){
     if(slots.size > 0){
         
         for (const slot of slots.values()) {
-            var json_dict = {"points": [], "details": {}}
+            var json_dict = {'points': [], 'details': {}}
             for(const point of slot.get("points").values()){
                 var bbox = point.getBBox()
                 json_dict["points"].push([bbox.x, bbox.y])
             }
             
-            json_dict["details"]["parking_id"] = slot.get("info").get("parking_id")
+            json_dict['details']['parking_id'] = slot.get("info").get("parking_id")
             var slot_id = slot.get("info").get("slot_id") 
             var slot_type = slot.get("info").get("slot_type")
             if(slot_id == null || slot_type == null){
                 check_correctness = false
             }
-            json_dict["details"]["slot_id"] = slot_id
-            json_dict["details"]["slot_type"] = slot_type  
+            json_dict['details']['slot_id'] = slot_id
+            json_dict['details']['slot_type'] = slot_type  
             
             json_array.push(json_dict)
         }
