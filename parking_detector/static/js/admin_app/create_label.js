@@ -106,7 +106,7 @@ function getImage(url_acquisition, id)
 }
 
 function main() {
-    if(paper != Nan){
+    if(paper != NaN){
         paper.clear()
     }
     paper = Raphael(document.getElementById("raph"), image.width*0.8, image.height*0.8);
