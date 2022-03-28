@@ -235,10 +235,10 @@ function changeModSlot(){
 
 }
 function buildJson(){
-    console.log(JSON.parse(res["mapping"]))
     for(const slot of JSON.parse(res["mapping"])){
 
         points = []
+        console.log(slot["points"])
         for(const point_json of slot["points"]){
             var point = paper.rect(point_json[0], point_json[1], 5, 5).attr({fill: "#000"});
             point.drag(onDragMove, onDragStart, onDragComplete);
