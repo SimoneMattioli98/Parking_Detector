@@ -307,6 +307,7 @@ function saveJson(){
             csrftoken = getCookie('csrftoken'); 
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() { 
+                console.log(xmlHttp.status)
                 if (xmlHttp.status != 200){
                     alert("Something went wrong.")
 
