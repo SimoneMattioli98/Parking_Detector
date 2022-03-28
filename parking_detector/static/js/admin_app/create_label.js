@@ -16,7 +16,7 @@ document.addEventListener("keydown", deleteLabel, false);
 //When the user clicks on a camera this function will be triggered
 
 function serviceRequest(id){
-    if(!saved){
+    if(!isSaved){
         alert("You must first save your changes!")
     }
     //Change button color if clicked and restore the previous button clicked color
