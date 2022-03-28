@@ -55,7 +55,7 @@ function getImage(url_acquisition, id)
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             //Once the frame is received it is sent to the service
             res = JSON.parse(xmlHttp.response);
-            if(res["image"] == null || res["mapping"] == null){
+            if(res["image"] == null){
                 alert("Error! The camera was not found..")
                 image.src = ""
             }else{
