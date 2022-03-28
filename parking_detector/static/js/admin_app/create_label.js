@@ -4,8 +4,13 @@ const clicked_btn_color = "#1791b9"
 let prev_clicked = null
 
 
-let image = new Image(); 
+var image = new Image(); 
 var paper = NaN
+var currentModSlot = -1
+var points = []
+var slots = new Map();
+document.addEventListener("keydown", deleteLabel, false);
+
   
 function saveJson(){
     var json_array = []
@@ -92,6 +97,10 @@ function getImage(url_acquisition, id)
 
                 image = new Image(); 
 
+                currentModSlot = -1
+                points = []
+                slots = new Map();
+
                 image.src = "data:image/jpeg;base64," + res["image"];
 
                 image.onload = main; 
@@ -112,4 +121,183 @@ function main() {
     }
     paper = Raphael(document.getElementById("raph"), image.width*0.8, image.height*0.8);
     var img = paper.image(image.src, 0, 0, image.width*0.8, image.height*0.8);
+    img.click(function(){
+        var clientX = window.event.clientX;
+        var clientY = window.event.clientY;
+        var svg = document.getElementsByTagName("image");
+        var rect = svg[0].getBoundingClientRect();
+        var x = clientX - rect.left
+        var y = clientY - rect.top
+        
+        var point = paper.rect(x, y, 5, 5).attr({fill: "#000"});
+        point.drag(onDragMove, onDragStart, onDragComplete);
+        points.push(point)
+
+        if(points.length == 4){
+            let r = Math.floor((Math.random() * 255));
+            let g = Math.floor((Math.random() * 255));
+            let b = Math.floor((Math.random() * 255));
+            var poly = paper.path("M"+points[0].getBBox().x+","+points[0].getBBox().y+
+                               "L"+points[1].getBBox().x+","+points[1].getBBox().y+
+                               "L"+points[2].getBBox().x+","+points[2].getBBox().y+
+                               "L"+points[3].getBBox().x+","+points[3].getBBox().y+
+                               "Z").attr({fill: "rgba("+r+","+g+","+b+", 0.8)"});
+            
+            const temp = new Map()
+
+            const points_map = new Map()
+            points_map.set(points[0].id, points[0])
+            points_map.set(points[1].id, points[1])
+            points_map.set(points[2].id, points[2])
+            points_map.set(points[3].id, points[3])
+
+            const info = new Map()
+            info.set("parking_id", null)
+            info.set("slot_id", null)
+            info.set("slot_type", null) 
+
+            temp.set("points", points_map)
+            temp.set("info", info)
+
+            slots.set(poly.id, temp)
+            poly.click(changeModSlot)   
+            points = []
+        }
+     });
+}
+
+
+function changeSlotID(input_id) {
+    if(currentModSlot > 0){
+        slots.get(currentModSlot).get("info").set("slot_id", input_id.value)
+    }else{
+        alert("No slot selected");
+        input_id.value = ''
+    }
+}
+
+function changeSlotType(input_type) {
+    if(currentModSlot > 0){
+        slots.get(currentModSlot).get("info").set("slot_type", input_type.value)
+    }else{
+        alert("No slot selected");
+        input_type.value = ''
+    }  
+}
+
+function deleteLabel(e) {
+    var key = e.key;
+    if(key=="Delete" && currentModSlot >= 0) {
+        for (const value of slots.get(currentModSlot).get("points").values()) {
+            value.remove()
+        }
+        paper.getById(currentModSlot).remove()
+        slots.delete(currentModSlot)
+        currentModSlot = -1
+        document.getElementById("slot_id").value = '';
+        document.getElementById("slot_type").value = '';
+    }
+}
+
+function onDragStart(){
+    if(currentModSlot >= 0 && slots.get(currentModSlot).get("points").has(this.id)){
+        this.ox = this.attr('x');
+        this.oy = this.attr('y');    
+    }
+}
+
+
+function onDragMove(dx,dy){
+    if(currentModSlot >= 0 && slots.get(currentModSlot).get("points").has(this.id)){
+        this.attr({x: this.ox + dx, y: this.oy + dy });
+    }
+}
+
+function onDragComplete(){
+    if(currentModSlot >= 0 && slots.get(currentModSlot).get("points").has(this.id)){
+        temp = []
+        for (const value of slots.get(currentModSlot).get("points").values()) {
+            temp.push([value.getBBox().x, value.getBBox().y])
+        }
+        var newPath =   ["M",temp[0][0],temp[0][1],
+                         "L",temp[1][0],temp[1][1],
+                         "L",temp[2][0],temp[2][1],
+                         "L",temp[3][0],temp[3][1],
+                         "Z"]
+
+        paper.getById(currentModSlot).attr({ path : newPath });
+    }
+};
+
+
+function changeModSlot(){
+    if(currentModSlot >= 0){
+        paper.getById(currentModSlot).attr({opacity: "0.8"})
+    }
+    currentModSlot = this.id
+    for (const value of slots.get(currentModSlot).get("points").values()) {
+        value.toFront()
+    }
+    paper.getById(currentModSlot).attr({opacity: "0.4"})
+
+    var slot_id_input = document.getElementById("slot_id");
+    var slot_type_input = document.getElementById("slot_type");
+    var slot_id = slots.get(currentModSlot).get("info").get("slot_id")
+    var slot_type = slots.get(currentModSlot).get("info").get("slot_type")
+
+    if(slot_id == null){
+        slot_id_input.value = ""
+    }else{
+        slot_id_input.value = slot_id
+    }
+
+    if(slot_type == null){
+        slot_type_input.value = ""
+    }else{
+        slot_type_input.value = slot_type
+    }
+
+
+}
+function buildJson(){
+    for(const slot of json_for_test){
+
+        points = []
+        for(const point_json of slot["points"]){
+            var point = paper.rect(point_json[0], point_json[1], 5, 5).attr({fill: "#000"});
+            point.drag(onDragMove, onDragStart, onDragComplete);
+            points.push(point)
+        }
+
+        let r = Math.floor((Math.random() * 255));
+        let g = Math.floor((Math.random() * 255));
+        let b = Math.floor((Math.random() * 255));
+        var poly = paper.path("M"+points[0].getBBox().x+","+points[0].getBBox().y+
+                            "L"+points[1].getBBox().x+","+points[1].getBBox().y+
+                            "L"+points[2].getBBox().x+","+points[2].getBBox().y+
+                            "L"+points[3].getBBox().x+","+points[3].getBBox().y+
+                            "Z").attr({fill: "rgba("+r+","+g+","+b+", 0.8)"});
+        
+        const temp = new Map()
+
+        const points_map = new Map()
+        points_map.set(points[0].id, points[0])
+        points_map.set(points[1].id, points[1])
+        points_map.set(points[2].id, points[2])
+        points_map.set(points[3].id, points[3])
+
+        const info = new Map()
+        info.set("parking_id", slot["details"]["parking_id"])
+        info.set("slot_id", slot["details"]["slot_id"])
+        info.set("slot_type", slot["details"]["slot_type"]) 
+
+        temp.set("points", points_map)
+        temp.set("info", info)
+
+        slots.set(poly.id, temp)
+        poly.click(changeModSlot)
+        points = []   
+        
+    }
+    console.log(slots)
 }
