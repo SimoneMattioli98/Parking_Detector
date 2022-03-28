@@ -301,3 +301,41 @@ function buildJson(){
     }
     console.log(slots)
 }
+
+
+ 
+function saveJson(){
+    var json_array = []
+    var check_correctness = true
+    if(slots.size > 0){
+        
+        for (const slot of slots.values()) {
+            var json_dict = {"points": [], "details": {}}
+            for(const point of slot.get("points").values()){
+                var bbox = point.getBBox()
+                json_dict["points"].push([bbox.x, bbox.y])
+                console.log(json_dict["points"])
+            }
+            
+            json_dict["details"]["parking_id"] = slot.get("info").get("parking_id")
+            var slot_id = slot.get("info").get("slot_id") 
+            var slot_type = slot.get("info").get("slot_type")
+            if(slot_id == null || slot_type == null){
+                check_correctness = false
+            }
+            json_dict["details"]["slot_id"] = slot_id
+            json_dict["details"]["slot_type"] = slot_type  
+            
+            json_array.push(json_dict)
+        }
+
+        if(check_correctness){
+            json_file = JSON.stringify(json_array)
+            console.log(json_file)
+        }else{
+            alert("Not all slots have been completed.")
+        }
+        
+        
+    }
+}
