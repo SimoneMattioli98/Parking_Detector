@@ -235,6 +235,7 @@ function changeModSlot(){
 
 }
 function buildJson(){
+    console.log(JSON.parse(res["mapping"]))
     for(const slot of JSON.parse(res["mapping"])){
 
         points = []
