@@ -89,8 +89,7 @@ function main() {
         paper.clear()
         document.getElementById("raph").innerHTML = "";
     }
-    console.log(image.width + " " + image.height)
-    console.log(image.width*0.8 + " " +  image.height*0.80)
+
     paper = Raphael(document.getElementById("raph"), image.width, image.height);
     var img = paper.image(image.src, 0, 0, image.width, image.height);
     if(res["mapping"] != null){
