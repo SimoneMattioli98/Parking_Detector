@@ -71,10 +71,10 @@ function sendImage(url_detection, encoded_image)
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             //Once the frame is received it is sent to the service
-            if(paper){
-                paper.clear()
-                document.getElementById("raph").innerHTML = "";
-            }
+            // if(paper){
+            //     paper.clear()
+            //     document.getElementById("raph").innerHTML = "";
+            // }
             res = JSON.parse(xmlHttp.response);
 
             
