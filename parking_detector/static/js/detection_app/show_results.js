@@ -3,9 +3,10 @@ url_acquisition = "http://172.17.84.11:7000/acquisition/"
 const standard_btn_color = "#33ccff"
 const clicked_btn_color = "#1791b9"
 let prev_clicked = null
-const image_tag = document.getElementById("ItemPreview")
+const image_tag = document.getElementById("camera_image")
 const free_slots = document.getElementById("freeSlots")
-
+var image = new Image(); 
+var paper = NaN
 //When the user clicks on a camera this function will be triggered
 
 function serviceRequest(id){
@@ -67,9 +68,23 @@ function sendImage(url_detection, encoded_image)
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             //Once the frame is received it is sent to the service
+            if(paper){
+                paper.clear()
+                document.getElementById("raph").innerHTML = "";
+            }
             res = JSON.parse(xmlHttp.response);
 
+            var image = new Image(); 
+
+            image.src = "data:image/jpeg;base64," + res["image"];
+
+            
             image_tag.src = "data:image/jpeg;base64," + res["image"];
+            
+            paper = Raphael(document.getElementById("raph"), image.width*0.8, image.height*0.8);
+
+            var img = paper.image(image.src, 0, 0, image.width*0.8, image.height*0.8);
+
             console.log();
             free_slots.textContent = "Number of free slots: " + res["free_slots"];
 
