@@ -98,7 +98,5 @@ function show(res){
     console.log(image.width + " " + image.height)
     console.log(image.width*0.8 + " " +  image.height*0.80)
     var img = paper.image(image.src, 0, 0, image.width*0.8, image.height*0.8);
-
-    console.log("CIAO");
     free_slots.textContent = "Number of free slots: " + res["free_slots"];
 }
