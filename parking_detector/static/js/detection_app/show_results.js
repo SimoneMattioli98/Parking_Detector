@@ -77,6 +77,7 @@ function sendImage(url_detection, encoded_image)
             }
             res = JSON.parse(xmlHttp.response);
 
+            
             var image = new Image(); 
 
             image.src = "data:image/jpeg;base64," + res["image"];
