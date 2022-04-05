@@ -10,7 +10,7 @@ def label_view(request):
     if request.method == 'POST':
         response_json = json.loads(request.body.decode('utf8'))
         camera_id = response_json["id"]
-        mapping = response_json["mapping"]
+        mapping = json.loads(response_json["mapping"])
         with open(f'labels/camera{camera_id}.json', 'w') as f:
             json.dump(mapping, f)
     
