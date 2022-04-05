@@ -83,14 +83,7 @@ function sendImage(url_detection, encoded_image)
 
             
             //image_tag.src = "data:image/jpeg;base64," + res["image"];
-            image.onload = function(){
-                paper = Raphael(document.getElementById("raph"), image.width*0.8, image.height*0.8);
-
-                var img = paper.image(image.src, 0, 0, image.width*0.8, image.height*0.8);
-    
-                console.log();
-                free_slots.textContent = "Number of free slots: " + res["free_slots"];
-            }; 
+            image.onload = show(res)
 
             
 
@@ -101,3 +94,11 @@ function sendImage(url_detection, encoded_image)
     xmlHttp.send(encoded_image);
 }
 
+function show(res){
+    paper = Raphael(document.getElementById("raph"), image.width*0.8, image.height*0.8);
+
+    var img = paper.image(image.src, 0, 0, image.width*0.8, image.height*0.8);
+
+    console.log("CIAO");
+    free_slots.textContent = "Number of free slots: " + res["free_slots"];
+}
