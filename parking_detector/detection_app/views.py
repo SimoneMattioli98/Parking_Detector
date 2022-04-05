@@ -44,7 +44,7 @@ def use_service(request):
         imageBytesIO = BytesIO(image_bytes)
         pil_img = Image.open(imageBytesIO)
         opencv_img = np.array(pil_img)
-
+        print(opencv_img.shape)
         # DETECTION PART
         detections = DetectionAppConfig.detector.get_detection(opencv_img)
         mask_stalls = get_stalls_mask(opencv_img, mapping_json)
