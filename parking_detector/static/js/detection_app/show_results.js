@@ -70,14 +70,8 @@ function sendImage(url_detection, encoded_image)
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            //Once the frame is received it is sent to the service
-            // if(paper){
-            //     paper.clear()
-            //     document.getElementById("raph").innerHTML = "";
-            // }
             res = JSON.parse(xmlHttp.response);
 
-            
             image = new Image(); 
             
             image.src = "data:image/jpeg;base64," + res["image"];

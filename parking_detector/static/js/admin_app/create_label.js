@@ -315,6 +315,7 @@ function saveJson(){
             xmlHttp.open("POST", url_admin, true); // true for asynchronous 
             xmlHttp.setRequestHeader("X-CSRFToken", csrftoken); 
             xmlHttp.send(JSON.stringify({"id": currentCameraId,"mapping": json_file}));
+            alert("Camera label saved correctly!!")
         }else{
             alert("Not all slots have been completed.")
         }
